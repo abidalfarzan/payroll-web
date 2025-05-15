@@ -37,6 +37,11 @@ class UserResource extends Resource
                                     ->relationship('roles', 'name')
                                     ->preload()
                                     ->searchable(),
+                                Forms\Components\FileUpload::make('avatar')
+                                    ->disk('public')
+                                    ->directory('avatars')
+                                    ->image()
+                                    ->preserveFilenames(),
                             ])
                     ]),
                 Forms\Components\Group::make()
@@ -59,6 +64,8 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
